@@ -9,8 +9,7 @@ const fs = require('fs'),
     path = require('path'),
     cron = require('node-cron'),
     mongoose = require('mongoose'),
-    setupSchema = require('./mongooseSchema/Setup.js'),
-    chalk = require('chalk')
+    setupSchema = require('./mongooseSchema/Setup.js')
 
 //allow bot to have access to guild and send messages
 const client = new Client({
@@ -41,10 +40,10 @@ for (const file of commandFiles) {
 client.on("ready", async () => {
 
     //connect to mongoDB database
-    console.log(chalk.blue("Connecting to MongoDB database...\n"))
+    console.log("Connecting to MongoDB database...\n")
     await mongoose.connect(process.env.DATABASE_TOKEN || '', {
         keepAlive: true
-    }).then(console.log(chalk.green("Connected to database")))
+    }).then(console.log("Connected to database"))
 
     // Get all ids of the servers
     const guild_ids = client.guilds.cache.map(guild => guild.id);
@@ -54,7 +53,7 @@ client.on("ready", async () => {
     for (const guildId of guild_ids) {
         rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
             { body: commands })
-            .then(() => console.log(chalk.green('Successfully updated commands for guild ' + guildId)))
+            .then(() => console.log('Successfully updated commands for guild ' + guildId))
             .catch(console.error);
     }
 
@@ -69,45 +68,17 @@ client.on("ready", async () => {
         console.log("--------------------------------------------------------------------------")
         for (var j = 0; j < guild_ids.length; j++) {
             const guildId = guild_ids[j]
-            //find database via guildId
             
-            setupSchema.find({ Guild: guildId }, async (err, data) => {
-                if (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var userIn = data[i].UserName
-                        setupSchema.findOne({ Guild: guildId, UserName: userIn }, async (err, data) => {
-                            if (!data) {
-                                console.log("No user data for Guild: " + guildId)
-                                return
-                            }
-                            var guildIn = client.guilds.cache.get(guildId);
-                            let Channel = data.Channel
-                            let UserName = data.UserName
-                            let Baseline = data.Baseline
-
-                            //set output channel
-                            const outChannel = guildIn.channels.cache.get(Channel)
-
-                            console.log(chalk.blue("Begining request...\n"))
-                            //request follower data
-                            await requestData(outChannel, UserName, Baseline, guildId)
-                        })
-                    }
-                } else {
-                    console.log("No data found for guild:" + guildId)
-                }
-            })
-            await sleep(5000)
         }
     })
 
-    console.log(chalk.blue("Validating cron...\n"))
+    console.log("Validating cron...\n")
     //validate cron value just in case they change their shit or mine doesnt work
     if (cron.validate(cron_value) === true) {
-        console.log(chalk.green("Cron validated. \nString " + cron_value + " registered as current cron value"))
+        console.log("Cron validated. \nString " + cron_value + " registered as current cron value")
         task.start()
     } else {
-        console.log(chalk.red("Cron invalid. \nString " + cron_value + " does not appear to be a valid cron value"))
+        console.log("Cron invalid. \nString " + cron_value + " does not appear to be a valid cron value")
     }
 });
 
