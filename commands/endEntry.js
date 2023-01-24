@@ -28,5 +28,25 @@ module.exports = {
 
     await interaction.reply({ content: 'Its time to add an entry to your daily journal! A private thread has been created for you named: ' + threadName, ephemeral: true })
 
+    // embed.setTitle("Daily Entry")
+    // .setColor(0x7289DA)
+    // .setAuthor({
+
+    // })
+
+    // await interaction.reply({ embeds: [embed] })
+
+    //   //changed this
+    //   await message.reply({embeds: [suggestEmbed]}).then(function (message) {
+    //       message.react("👍")
+    //       message.react("👎")
+    //       message.startThread({
+    //           name: `${threadAuthor}-${message.createdTimestamp}`,
+    //           autoArchiveDuration: 60,
+    //           type: 'GUILD_PUBLIC_THREAD'
+    //       });
+    //   });
+
+
   }
 }
