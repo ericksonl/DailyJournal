@@ -2,9 +2,8 @@ const { model, Schema }  = require('mongoose')
 
 const setupSchema = new Schema({
     Guild: String,
-    Channel: String,
-    UserName: String,
+    // User: int64,
     Baseline: Array
 })
 
-module.exports = model('channel-ids', setupSchema, 'channel-ids')
+module.exports = model('journal-entries', setupSchema, 'journal-entries')
