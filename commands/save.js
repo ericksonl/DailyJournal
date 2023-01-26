@@ -20,6 +20,7 @@ module.exports = {
     const embed = new EmbedBuilder()
 
     var contentArr = []
+    var outArr = []
 
     if (channelType !== privateThread) {
       interaction.reply("This is not a private thread!")
@@ -37,6 +38,13 @@ module.exports = {
         console.log("Previewing message array...")
         console.log(contentArr)
 
+        console.log("Merging array...")
+
+
+
+        outArr = contentArr.reverse()
+        console.log(outArr)
+
       } catch (error) {
         console.log(error)
       }
@@ -46,30 +54,7 @@ module.exports = {
         .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
       await interaction.reply({ embeds: [embed] })
 
-      journalSchema(guildID, user, outArr)
+      // journalSchema(user, outArr)
     }
   }
 }
-
-// async function journalSchema(guildID, user, inArray) {
-//   //first see if there already exists a database for GuildID
-//   setupSchema.findOne({ Guild: guildID, User: user }, async (err, data) => {
-//     if (!data) {
-//       //if not, create a new one
-//       await setupSchema.create({
-//         Guild: guildID,
-//         Name: user,
-//         Day1: inArray
-//       })
-//     } else {
-//       async function updateSchema(guildId, update, screen_name) {
-//         let result = await setupSchema.updateOne(
-//           { Guild: guildId, UserName: screen_name },
-//           {
-//             $set: { Baseline: update }
-//           })
-//         console.log(result)
-//       }
-//     }
-//   })
-// }
