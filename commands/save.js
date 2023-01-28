@@ -49,12 +49,46 @@ module.exports = {
         console.log(error)
       }
 
-      embed.setTitle("Save Complete")
-        .setColor(0x7289DA)
-        .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
-      await interaction.reply({ embeds: [embed] })
+      await interaction.reply({ embeds: "Saving..." })
 
       // journalSchema(user, outArr)
     }
   }
+}
+
+
+async function journalSchema(user, inArray) {
+  //first see if there already exists a database for UserID
+  setupSchema.findOne({ UserID: user }, async (err, data) => {
+    //if no data, create an object for the user
+    if (!data) {
+      //Get user to create a key
+
+      //if not, create a new one
+      await setupSchema.create({
+        UserID: user,
+        Key: key,
+        DailyJournal: inArray
+      })
+
+
+
+    } else {
+
+      //add contents of outArr to 
+
+      let result = await setupSchema.updateOne(
+        { UserID: user },
+        {
+          $set: { DailyJournal: update }
+        })
+      console.log(result)
+
+      embed.setTitle("Save Complete")
+        .setColor(0x7289DA)
+        .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
+      await interaction.followUp({ embeds: [embed] })
+
+    }
+  })
 }
