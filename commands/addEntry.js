@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
-const setupSchema = require('../mongooseSchema/Setup.js')
+const setupSchema = require('../mongooseSchema/schema.js')
+const { beginSetup } = require('../functions/beginSetup.js')
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,7 +21,11 @@ module.exports = {
       //if no data, user has not completed setup
       //TODO:
       if (!data) {
-        interaction.reply("Welcome to Daily Journal! It seems you're a first time user! Please complete the setup to get started!")
+        
+        await interaction.reply({ content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
+        '\nTo start you need to create your save key using the command `reset-key`. This key will be used to save and access your journal entries.' + 
+        '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true})
+        beginSetup(user, channel)
 
         //else if there is data, and a current journal open, redirect user to the open journal
       //DEBUG: 
