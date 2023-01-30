@@ -23,7 +23,7 @@ module.exports = {
       if (!data) {
         
         await interaction.reply({ content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
-        '\nTo start you need to create your save key using the command `reset-key`. This key will be used to save and access your journal entries.' + 
+        '\nTo start you need to setup your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' + 
         '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true})
         beginSetup(user, channel)
 
