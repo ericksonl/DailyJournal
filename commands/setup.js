@@ -27,7 +27,9 @@ module.exports = {
             //if no data, begin setup
             if (!data) {
 
-                var encryptedPass = CryptoJS.AES.encrypt(userPassword, process.env.PASSWORD_ENCRYPTION_KEY);
+                var encrypt = CryptoJS.AES.encrypt(userPassword, process.env.PASSWORD_ENCRYPTION_KEY);
+        
+                var encryptedPass = encrypt.toString()
 
                 await setupSchema.create({
                     UserID: user,
@@ -36,9 +38,9 @@ module.exports = {
                   })
 
                 interaction.reply({
-                    content: "Your password is now set to: ||" + userPassword +
+                    content: "Congrats, you completed the setup! Your password is set to: ||" + userPassword +
                         "||.\nYour password will be used to save and access your journal entries.\n" +
-                        "**Write this down in a safe place and don't give it out to anyone!**", ephemeral: true
+                        "**Write it down in a safe place and don't give it out to anyone!**", ephemeral: true
                 })
             } else {
                 interaction.reply({ content: "It looks like you already completed the setup.\n If you need to, you can reset your password using the `/forgot-password` command.", ephemeral: true })
