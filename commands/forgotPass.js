@@ -25,7 +25,7 @@ module.exports = {
         // var encryptedPass = encrypt.toString()
 
         setupSchema.findOne({ UserID: user }, async (err, data) => {
-            if (!data) 
+            if (!data) {
                 interaction.reply("No data")
                 // await interaction.reply({
                 //     content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
