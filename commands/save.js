@@ -54,13 +54,12 @@ module.exports = {
   }
 }
 
-
 async function journalSchema(interaction, user, inArray) {
   const embed = new EmbedBuilder()
   //first see if there already exists a database for UserID
   setupSchema.findOne({ UserID: user.id }, async (err, data) => {
     //if no data, create an object for the user
-    
+
     if (!data) {
       interaction.followUp("How are you here right now....")
 
@@ -74,11 +73,22 @@ async function journalSchema(interaction, user, inArray) {
         {
           $set: { DailyJournal: items }
         })
-      
+
       embed.setTitle("Save Complete")
         .setColor(0x7289DA)
-        .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
+        .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in 10 seconds")
       await interaction.followUp({ embeds: [embed] })
+
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      
+      await delay(10000);
+      let thread = interaction.channel
+      try {
+        await thread.delete();
+      } catch (error) {
+        interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
+        console.log(error)
+      }
     }
   })
 }

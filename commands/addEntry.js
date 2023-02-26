@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
-const { beginSetup } = require('../functions/beginSetup.js')
 
 
 module.exports = {
