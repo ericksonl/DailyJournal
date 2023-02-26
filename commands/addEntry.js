@@ -13,13 +13,13 @@ module.exports = {
     const channel = interaction.channel
     const user = interaction.user
     const userName = user.username
+    const userId = user.id
     const threadName = userName + "'s-Daily-Journal"
     const privateThread = 12
     const thread = channel.threads.cache.find(x => x.name === threadName)
 
-    setupSchema.findOne({ UserID: user }, async (err, data) => {
+    setupSchema.findOne({ UserID: userId }, async (err, data) => {
       //if no data, user has not completed setup
-      //TODO:
       if (!data) {
         
         await interaction.reply({ content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
@@ -28,7 +28,6 @@ module.exports = {
         beginSetup(user, channel)
 
         //else if there is data, and a current journal open, redirect user to the open journal
-      //DEBUG: 
       } else if (data && thread !== undefined) {
 
         await interaction.reply({ content: '<@' + user + '>\nIt seems you still have an active journal entry named ' + threadName + '!', ephemeral: true })
@@ -40,7 +39,6 @@ module.exports = {
         })
 
         //else there is data and no current journal open, so create a journal
-        //DEBUG:
       } else {
 
         await interaction.reply({ content: '<@' + user + '>\nIts time to add an entry to your daily journal! A private thread has been created for you named: ' + threadName, ephemeral: true })

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-// const setupSchema = require('../mongooseSchema/setup.js')
+const setupSchema = require('../mongooseSchema/schema.js')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,8 +17,6 @@ module.exports = {
     const userName = user.username
     const threadName = userName + "'s-Daily-Journal"
 
-    const embed = new EmbedBuilder()
-
     var contentArr = []
     var outArr = []
 
@@ -27,6 +25,7 @@ module.exports = {
     } else if (channel.name !== threadName) {
       interaction.reply("This is not your journal!")
     } else {
+      await interaction.reply({ content: "Saving..." })
       try {
         const messages = await channel.messages.fetch({ limit: 100 })
         console.log("Fetching messages...")
@@ -40,55 +39,46 @@ module.exports = {
 
         console.log("Merging array...")
 
-
-
         outArr = contentArr.reverse()
         console.log(outArr)
 
       } catch (error) {
+        await interaction.followUp({ content: "There was a problem saving your messages. Please try again later" })
         console.log(error)
       }
 
-      await interaction.reply({ embeds: "Saving..." })
+      await interaction.followUp({ content: "Successfully saved!" })
 
-      // journalSchema(user, outArr)
+      journalSchema(interaction, user, outArr)
     }
   }
 }
 
 
-// async function journalSchema(user, inArray) {
-//   //first see if there already exists a database for UserID
-//   setupSchema.findOne({ UserID: user }, async (err, data) => {
-//     //if no data, create an object for the user
-//     if (!data) {
-//       //Get user to create a key
+async function journalSchema(interaction, user, inArray) {
+  const embed = new EmbedBuilder()
+  //first see if there already exists a database for UserID
+  setupSchema.findOne({ UserID: user.id }, async (err, data) => {
+    //if no data, create an object for the user
+    
+    if (!data) {
+      interaction.followUp("How are you here right now....")
 
-//       //if not, create a new one
-//       await setupSchema.create({
-//         UserID: user,
-//         Key: key,
-//         DailyJournal: inArray
-//       })
+    } else {
 
+      let items = data.DailyJournal
+      items.push(inArray)
 
-
-//     } else {
-
-//       //add contents of outArr to 
-
-//       let result = await setupSchema.updateOne(
-//         { UserID: user },
-//         {
-//           $set: { DailyJournal: update }
-//         })
-//       console.log(result)
-
-//       embed.setTitle("Save Complete")
-//         .setColor(0x7289DA)
-//         .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
-//       await interaction.followUp({ embeds: [embed] })
-
-//     }
-//   })
-// }
+      await setupSchema.updateOne(
+        { UserID: user.id },
+        {
+          $set: { DailyJournal: items }
+        })
+      
+      embed.setTitle("Save Complete")
+        .setColor(0x7289DA)
+        .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in x hours")
+      await interaction.followUp({ embeds: [embed] })
+    }
+  })
+}

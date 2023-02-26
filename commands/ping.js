@@ -1,29 +1,32 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
+const CryptoJS = require("crypto-js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ping') //name of command (displayed in discord)
-    .setDescription('Responds with pong') //description of command (displayed in discord)
-    .addStringOption((option) =>
-      option.setName('pass')
-        .setDescription("The password you will use to save and view your daily journals")
-        .setRequired(true)), //add required string arg for Twitter Username
+    .setDescription('Responds with pong'), //description of command (displayed in discord)
 
   async execute(interaction) {
     const user = interaction.user.id
 
-    const { options } = interaction
+    var encrypted
 
-    const pass = options.getString("pass")
+    setupSchema.findOne({ UserID: user }, async (err, data) => {
+      if (data) {    
+        encrypted = data.Key
+        
+        console.log(encrypted)
 
-    await setupSchema.updateOne(
-      { UserID: user },
-      {
-        $set: { "Key" : pass }
-      })
 
-    await interaction.reply("did this work")
+        var decrypted = CryptoJS.AES.decrypt(encrypted, process.env.PASSWORD_ENCRYPTION_KEY);
 
+        await interaction.reply({ content: "Decrypted: " + decrypted })
+
+        var actual = decrypted.toString(CryptoJS.enc.Utf8)
+
+        await interaction.followUp({ content: "Actual: " + actual })
+      }
+    })   
   }
 }
