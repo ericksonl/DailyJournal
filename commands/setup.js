@@ -10,7 +10,12 @@ module.exports = {
         .addStringOption((option) =>
             option.setName('set-password')
                 .setDescription("The password you will use to save and view your daily journals")
+                .setRequired(true)) //add required string arg for Twitter Username
+        .addStringOption((option) =>
+            option.setName('set-timezone')
+                .setDescription("Your local timezone")
                 .setRequired(true)), //add required string arg for Twitter Username
+
 
     async execute(interaction) {
 
@@ -18,24 +23,27 @@ module.exports = {
 
         const userPassword = options.getString("set-password")
 
+        const userTimeZone = options.getString("set-timezone")
+
         const user = interaction.user.id
         console.log(user)
 
-        const emptyArr = []
+        let dailyJournalObj = {}
 
         setupSchema.findOne({ UserID: user }, async (err, data) => {
             //if no data, begin setup
             if (!data) {
 
                 var encrypt = CryptoJS.AES.encrypt(userPassword, process.env.PASSWORD_ENCRYPTION_KEY);
-        
+
                 var encryptedPass = encrypt.toString()
 
                 await setupSchema.create({
                     UserID: user,
                     Key: encryptedPass,
-                    DailyJournal: emptyArr
-                  })
+                    TimeZone: userTimeZone,
+                    DailyJournal: dailyJournalObj
+                })
 
                 interaction.reply({
                     content: "Congrats, you completed the setup! Your password is set to: ||" + userPassword +

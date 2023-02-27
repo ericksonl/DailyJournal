@@ -19,6 +19,8 @@ module.exports = {
 
     var contentArr = []
     var outArr = []
+    
+    interaction.message.created_at
 
     if (channelType !== privateThread) {
       interaction.reply("This is not a private thread!")
@@ -56,6 +58,7 @@ module.exports = {
 
 async function journalSchema(interaction, user, inArray) {
   const embed = new EmbedBuilder()
+
   //first see if there already exists a database for UserID
   setupSchema.findOne({ UserID: user.id }, async (err, data) => {
     //if no data, create an object for the user
@@ -65,13 +68,15 @@ async function journalSchema(interaction, user, inArray) {
 
     } else {
 
-      let items = data.DailyJournal
-      items.push(inArray)
+      let inJournal = data.DailyJournal
+
+      //this overwrites anything with the same naem
+      let newObj = Object.assign({}, inJournal, {date2: inArray})
 
       await setupSchema.updateOne(
         { UserID: user.id },
         {
-          $set: { DailyJournal: items }
+          $set: { DailyJournal: newObj }
         })
 
       embed.setTitle("Save Complete")
@@ -80,15 +85,16 @@ async function journalSchema(interaction, user, inArray) {
       await interaction.followUp({ embeds: [embed] })
 
       const delay = ms => new Promise(res => setTimeout(res, ms));
-      
-      await delay(10000);
-      let thread = interaction.channel
-      try {
-        await thread.delete();
-      } catch (error) {
-        interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
-        console.log(error)
-      }
+
+      // await delay(10000);
+      // let thread = interaction.channel
+      // try {
+      //   await thread.delete();
+      // } catch (error) {
+      //   interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
+      //   console.log(error)
+      // }
+
     }
   })
 }
