@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
+const CryptoJS = require("crypto-js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,7 +13,6 @@ module.exports = {
     const channelType = channel.type
     const privateThread = 12
 
-    const guildID = interaction.guild.id
     const user = interaction.user
     const userName = user.username
     const threadName = userName + "'s-Daily-Journal"
@@ -30,8 +30,6 @@ module.exports = {
       } else {
         if (channelType !== privateThread) {
           interaction.reply("This is not a private thread!")
-
-          //DEBUG: This wont work if journal is open and user changes their name
         } else if (channel.name !== threadName) {
           interaction.reply("This is not your journal!")
         } else {
@@ -40,7 +38,16 @@ module.exports = {
             const messages = await channel.messages.fetch({ limit: 100 })
             const allMessagesPostedByUser = messages.filter(msg => msg.author.id === user.id)
 
-            allMessagesPostedByUser.forEach(message => contentArr.push(message.content))
+            allMessagesPostedByUser.forEach(message => {
+
+              var decrypted = CryptoJS.AES.decrypt(data.Key, process.env.PASSWORD_ENCRYPTION_KEY);    
+              var actual = decrypted.toString(CryptoJS.enc.Utf8)  
+
+              var encrypt = CryptoJS.AES.encrypt(message.content, actual);
+              var encryptedMsg = encrypt.toString()
+              contentArr.push(encryptedMsg)
+            })
+
 
             outArr = contentArr.reverse()
 
@@ -83,7 +90,7 @@ async function journalSchema(interaction, user, inArray, data) {
       .setColor(0x7289DA)
       .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in 10 seconds")
     await interaction.followUp({ embeds: [embed] })
-    
+
   } else {
 
     let inJournal = data.DailyJournal
@@ -99,13 +106,13 @@ async function journalSchema(interaction, user, inArray, data) {
 
     embed.setTitle("Save Complete")
       .setColor(0x7289DA)
-      .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in 10 seconds")
+      .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in 5 seconds")
     await interaction.followUp({ embeds: [embed] })
   }
 
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  await delay(10000);
+  await delay(5000);
   let thread = interaction.channel
   try {
     await thread.delete();
