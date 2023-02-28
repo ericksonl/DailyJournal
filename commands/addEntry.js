@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 
+//DEBUG: Command does not work in threads
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -24,8 +25,7 @@ module.exports = {
         await interaction.reply({ content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
         '\nTo start you need to setup your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' + 
         '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true})
-        // beginSetup(user, channel)
-
+        
         //else if there is data, and a current journal open, redirect user to the open journal
       } else if (data && thread !== undefined) {
 
