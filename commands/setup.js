@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
-const AES = require("crypto-js/aes");
-const CryptoJS = require("crypto-js");
+const bcrypt = require('bcrypt');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,20 +9,15 @@ module.exports = {
         .addStringOption((option) =>
             option.setName('set-password')
                 .setDescription("The password you will use to save and view your daily journals")
-                .setRequired(true)) //add required string arg for Twitter Username
-        .addStringOption((option) =>
-            option.setName('set-timezone')
-                .setDescription("Your local timezone")
                 .setRequired(true)), //add required string arg for Twitter Username
 
+    //TODO: Add timezone functionality
 
     async execute(interaction) {
 
         const { options } = interaction
 
         const userPassword = options.getString("set-password")
-
-        const userTimeZone = options.getString("set-timezone")
 
         const user = interaction.user.id
         console.log(user)
@@ -34,15 +28,29 @@ module.exports = {
             //if no data, begin setup
             if (!data) {
 
-                var encrypt = CryptoJS.AES.encrypt(userPassword, process.env.PASSWORD_ENCRYPTION_KEY);
+                // Hashing a password
+                const plainPassword = userPassword;
 
-                var encryptedPass = encrypt.toString()
+                // Generate a salt to strengthen the hashing algorithm
+                const saltRounds = 10;
 
-                await setupSchema.create({
-                    UserID: user,
-                    Key: encryptedPass,
-                    TimeZone: userTimeZone,
-                    DailyJournal: dailyJournalObj
+                //create hash of password
+                bcrypt.hash(plainPassword, saltRounds, async (err, hash) => {
+                    if (err) {
+                        console.error('Error hashing password:', err);
+                        interaction.reply({
+                            content: "There was an error with your passcode, please run the setup again", ephemeral: true
+                        })
+                        return;
+                    }
+                    // Create database and store the hashed password
+                    console.log(hash)
+                    await setupSchema.create({
+                        UserID: user,
+                        Key: hash,
+                        TimeZone: userTimeZone,
+                        DailyJournal: dailyJournalObj
+                    })
                 })
 
                 interaction.reply({
