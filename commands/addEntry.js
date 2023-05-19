@@ -14,9 +14,19 @@ module.exports = {
     const user = interaction.user
     const userName = user.username
     const userId = user.id
-    const threadName = userName + "'s-Daily-Journal"
+    //Have to get the user's discriminator in the event two people have the same name
+    const threadName = userName + "#" + user.discriminator + "'s-Daily-Journal"
     const privateThread = 12
-    const thread = channel.threads.cache.find(x => x.name === threadName)
+
+    // 0 is normal text channel
+    //If command is run inside anything besides a GUILD_TEXT channel the command will error
+    if (channel.type !== 0) {
+      interaction.reply("Sorry, you cannot create a thread in this channel!")
+      return
+    }
+    
+    //search through entire guild to find thread with the same name
+    const thread = channel.guild.channels.cache.find(x => x.isThread() && x.name === threadName)
 
     setupSchema.findOne({ UserID: userId }, async (err, data) => {
       //if no data, user has not completed setup
