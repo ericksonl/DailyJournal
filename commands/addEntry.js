@@ -1,8 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 
-//DEBUG: Command does not work in threads
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add-entry') //name of command (displayed in discord)

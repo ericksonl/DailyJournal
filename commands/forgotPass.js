@@ -9,7 +9,7 @@ module.exports = {
         .addStringOption((option) =>
             option.setName('new-password')
                 .setDescription("The password you will use to save and view your daily journals")
-                .setRequired(true)), //add required string arg for Twitter Username
+                .setRequired(true)),
 
     async execute(interaction) {
 
