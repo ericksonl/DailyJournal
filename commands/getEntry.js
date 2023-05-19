@@ -6,15 +6,15 @@ const bcrypt = require('bcrypt');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('get-entry') //name of command (displayed in discord)
-    .setDescription('Responds with pong') //description of command (displayed in discord)
-    .addStringOption((option) =>
-      option.setName('date')
-        .setDescription("The desired date")
-        .setRequired(true)) //add required string arg for Twitter Username
+    .setDescription('Sends you a direct message with your journal entry on the given date') //description of command (displayed in discord)
     .addStringOption((option) =>
       option.setName('password')
-        .setDescription('Your journal password')
-        .setRequired(true)),
+        .setDescription('Your DailyJournal password')
+        .setRequired(true))
+    .addStringOption((option) =>
+      option.setName('date')
+        .setDescription("Date of the journal entry")
+        .setRequired(false)),
 
   async execute(interaction) {
     const { options } = interaction
@@ -24,24 +24,26 @@ module.exports = {
 
     const data = await setupSchema.findOne({ UserID: user.id })
 
-    // if no data, user has not completed setup
+    //check if user has data in the databse
     if (!data) {
+      //user is a first-time user, provide setup instructions
       await interaction.reply({
-        content: "Welcome to Daily Journal! It seems you're a first-time user, please complete the setup to get started!" +
-          '\nTo start, you need to set up your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' +
-          '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**',
+        content: `Welcome to Daily Journal! It seems you're a first-time user. Please complete the setup to get started!
+          \nTo start, you need to set up your account and create a password using the command "/setup". Your password will be used to access your past journal entries.
+          \n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**`,
         ephemeral: true
       });
       return;
     }
 
+    //compare given password with the hashed password in database
     const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
 
     if (isPasswordMatch) {
-
       const saved_entries = data.DailyJournal[date];
       const keys = Object.keys(data.DailyJournal)
 
+      //if user has no saved entries
       if (keys.length === 0) {
         await interaction.reply("You don't have any saved entries yet! Please use `/add-entry` to get started!")
         return
@@ -49,11 +51,25 @@ module.exports = {
 
       const embed = new EmbedBuilder();
 
-      if (saved_entries === undefined) {
+      if (date === null) {
         const keys = Object.keys(data.DailyJournal);
 
         embed
-          .setTitle(user.username + "'s Journal Entries")
+          .setTitle(`${user.username}'s Journal Entries`)
+          .setColor(0x7289DA)
+          .setDescription(keys.map(String).join('\n'));
+
+        await interaction.reply({
+          content: "Here is a list of the entries you have."
+            + "\nUse the command `/get-entry <password> <date>` to retrieve a specific entry.",
+          embeds: [embed]
+        });
+      } else if (saved_entries === undefined) {
+        // no saved entries for the specified date
+        const keys = Object.keys(data.DailyJournal);
+
+        embed
+          .setTitle(`${user.username}'s Journal Entries`)
           .setColor(0x7289DA)
           .setDescription(keys.map(String).join('\n'));
 
@@ -62,9 +78,9 @@ module.exports = {
           embeds: [embed]
         });
       } else {
-
+        //entry has been found
         var decrypted_entries = saved_entries.map(entry => {
-          
+          //decrypt each entry
           var decrypted = CryptoJS.AES.decrypt(entry, data.Key);
           var actual = decrypted.toString(CryptoJS.enc.Utf8)
 
@@ -73,16 +89,19 @@ module.exports = {
 
         const formattedEntries = decrypted_entries.join('\n');
         embed
-          .setTitle(user.username + "'s " + date + " Journal Entry")
+          .setTitle(`${user.username}'s ${date} Journal Entry`)
           .setColor(0x7289DA)
           .setDescription(formattedEntries);
+
+        //send the jounral entry as a DM to the user
         await user.send({ embeds: [embed] })
           .then(async () => {
             await interaction.reply("Your journal entry has been sent to your DM's");
           })
       }
     } else {
-      await interaction.reply({ content: "Incorrect password!" });
+      //Password does not match
+      await interaction.reply('Incorrect password!');
     }
   }
 }
