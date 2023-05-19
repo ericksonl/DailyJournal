@@ -1,10 +1,6 @@
-//TODO: Get entry from saved entries
-//Entries are encrypted with users actual passcode
-//Decrypt and recrypt all messages(?) after they change their passcode
-//Look into adding encryption to entire array, rather than each message
-
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
+const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -66,13 +62,24 @@ module.exports = {
           embeds: [embed]
         });
       } else {
-        const formattedEntries = saved_entries.join('\n');
+
+        var decrypted_entries = saved_entries.map(entry => {
+          
+          var decrypted = CryptoJS.AES.decrypt(entry, data.Key);
+          var actual = decrypted.toString(CryptoJS.enc.Utf8)
+
+          return actual
+        })
+
+        const formattedEntries = decrypted_entries.join('\n');
         embed
           .setTitle(user.username + "'s " + date + " Journal Entry")
           .setColor(0x7289DA)
           .setDescription(formattedEntries);
-
-        await interaction.reply({ embeds: [embed] });
+        await user.send({ embeds: [embed] })
+          .then(async () => {
+            await interaction.reply("Your journal entry has been sent to your DM's");
+          })
       }
     } else {
       await interaction.reply({ content: "Incorrect password!" });
