@@ -15,7 +15,7 @@ module.exports = {
 
     const user = interaction.user
     const userName = user.username
-    const threadName = userName + "'s-Daily-Journal"
+    const threadName = userName + "#" + user.discriminator + "'s-Daily-Journal"
 
     var contentArr = []
     var outArr = []
