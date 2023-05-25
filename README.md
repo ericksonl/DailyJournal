@@ -1,5 +1,4 @@
 # DailyJournal
-[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-blue.svg)](https://github.com/ericksonl/DailyJournal/blob/main/LICENSE)
 
 DailyJournal is a Discord bot that brings the joy of journaling to your server. With DailyJournal, you can keep track of your thoughts, experiences, and reflections right within Discord. It provides a private and personal space for users to express themselves, set goals, and document their daily journey.
 
@@ -49,11 +48,3 @@ npm install
 | `/getEntry` | Get entry from specified date | `password` <br /> `date` | None | `/getEntry pass1234 1/01/2020`
 | `/save` | Save your journal entry | `password` | - Must be inside a journal text channel | `/save pass1234`
 | `/help` | Displays all the commands of the bot. <br /> Providing the name of a command will return all available information about that command. | `Command` | None | `/help` <br /> `/help command`
-
-## License
-
-CC BY-NC 4.0 License
-
-Copyright (c) [2023] [Liam Erickson]
-
-[Full license text](https://github.com/ericksonl/DailyJournal/blob/main/LICENSE)
