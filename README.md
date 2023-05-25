@@ -53,6 +53,7 @@ npm install
 ## License
 
 CC BY-NC 4.0 License
+
 Copyright (c) [2023] [Liam Erickson]
 
 [Full license text](https://github.com/ericksonl/DailyJournal/blob/main/LICENSE)
