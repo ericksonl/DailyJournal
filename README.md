@@ -44,8 +44,8 @@ npm install
 | Command | Description | Arguments | Requirements | Usage(s) |
 | --- | --- | --- | --- | --- |
 | `/setup` | Set up DailyJournal | `set-password` | - First time running `/setup` | `/setup pass1234`
-| `/forgot-pass` | Change your password if you have forgotten it | `new-password` | - Must have completed `/setup` | `/addEntry`
-| `/add-entry` | Add an entry to your journal | None | - Must be run in a valid text channel (where a thread can be created) | `/addEntry`
+| `/forgot-pass` | Change your password if you have forgotten it | `new-password` | - Must have completed `/setup` | `/forgot-pass newPass1234`
+| `/add-entry` | Add an entry to your journal | None | - Must be run in a valid text channel (where a thread can be created) | `/add-entry`
 | `/save` | Save your journal entry | `password` | - Can only be used in your personal journal thread <br /> - Must have completed `/setup` | `/save pass1234`
 | `/get-entry` | Sends you a DM with your journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/getEntry pass1234 1/01/2020`
 | `/help` | Displays all the commands of the bot. | None | None | `/help`
