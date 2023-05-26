@@ -43,8 +43,9 @@ npm install
 
 | Command | Description | Arguments | Requirements | Usage(s) |
 | --- | --- | --- | --- | --- |
-| `/setup` | Set up DailyJournal | `set-password` | - Hasn't run setup yet | `/setup pass1234`
-| `/addEntry` | Add an entry to your journal | None | - Must be a valid text channel | `/addEntry`
-| `/getEntry` | Get entry from specified date | `password` <br /> `date` | None | `/getEntry pass1234 1/01/2020`
-| `/save` | Save your journal entry | `password` | - Must be inside a journal text channel | `/save pass1234`
-| `/help` | Displays all the commands of the bot. <br /> Providing the name of a command will return all available information about that command. | `Command` | None | `/help` <br /> `/help command`
+| `/setup` | Set up DailyJournal | `set-password` | - First time running `/setup` | `/setup pass1234`
+| `/forgot-pass` | Change your password if you have forgotten it | `new-password` | - Must have completed `/setup` | `/addEntry`
+| `/add-entry` | Add an entry to your journal | None | - Must be run in a valid text channel (where a thread can be created) | `/addEntry`
+| `/save` | Save your journal entry | `password` | - Can only be used in your personal journal thread <br /> - Must have completed `/setup` | `/save pass1234`
+| `/get-entry` | Sends you a DM with your journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/getEntry pass1234 1/01/2020`
+| `/help` | Displays all the commands of the bot. | None | None | `/help`
