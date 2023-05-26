@@ -14,7 +14,7 @@ module.exports = {
     .addStringOption((option) =>
       option.setName('date')
         .setDescription("Date of the journal entry")
-        .setRequired(false)),
+        .setRequired(true)),
 
   async execute(interaction) {
     const { options } = interaction
@@ -51,18 +51,7 @@ module.exports = {
 
       const embed = new EmbedBuilder();
 
-      if (date === null) {
-        embed
-          .setTitle(`${user.username}'s Journal Entries`)
-          .setColor(0x7289DA)
-          .setDescription(keys.map(String).join('\n'));
-
-        await interaction.reply({
-          content: "Here is a list of the entries you have."
-            + "\nUse the command `/get-entry <password> <date>` to view a specific entry.",
-          embeds: [embed]
-        });
-      } else if (saved_entries === undefined) {
+      if (saved_entries === undefined) {
         // no saved entries for the specified date
         const keys = Object.keys(data.DailyJournal);
 
@@ -89,7 +78,9 @@ module.exports = {
         embed
           .setTitle(`${user.username}'s ${date} Journal Entry`)
           .setColor(0x7289DA)
-          .setDescription(formattedEntries);
+          .setDescription(formattedEntries)
+          .addFields(
+            { name: "Mood Value", value: String(data.MoodChart[date]) + "/5"})
 
         //send the jounral entry as a DM to the user
         await user.send({ embeds: [embed] })

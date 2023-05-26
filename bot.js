@@ -4,6 +4,8 @@ const { REST } = require('@discordjs/rest'),
     { Routes } = require('discord-api-types/v10'),
     { Client, Collection, Events, EmbedBuilder } = require('discord.js')
 
+const { saveThread } = require('./helperFunctions/saveThread.js');
+
 const fs = require('fs'),
     path = require('path')
 mongoose = require('mongoose')
@@ -112,6 +114,32 @@ client.login(process.env.DISCORD_TOKEN);
 client.on(Events.InteractionCreate, async interaction => {
 
     if (!interaction.isMessageComponent()) return;
+
+    if (interaction.isButton()) {
+        const btn_id = interaction.customId
+
+        const embed = new EmbedBuilder()
+            .setTitle("Saving...")
+            .setColor(0x7289DA)
+            .setDescription("Thanks for using DailyJournal! All messages in this thread are being saved. This thread will be automatically deleted in 5 seconds")
+
+        if (btn_id === 'one') {
+            await interaction.update({ embeds: [embed], components: [] });
+            saveThread(interaction, 1)
+        } else if (btn_id === 'two') {
+            await interaction.update({ embeds: [embed], components: [] });
+            saveThread(interaction, 2)
+        } else if (btn_id === 'three') {
+            await interaction.update({ embeds: [embed], components: [] });
+            saveThread(interaction, 3)
+        } else if (btn_id === 'four') {
+            await interaction.update({ embeds: [embed], components: [] });
+            saveThread(interaction, 4)
+        } else if (btn_id === 'five') {
+            await interaction.update({ embeds: [embed], components: [] });
+            saveThread(interaction, 5)
+        }
+    }
 
     if (interaction.customId === 'help-menu') {
         const selectedOption = interaction.values[0];
