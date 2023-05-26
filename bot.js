@@ -124,7 +124,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "set-password (A password used to save and view your journal entries)\n[Required: Yes]" },
-                    { name: "• Requirements", value: "Never have run `/setup` before" },
+                    { name: "• Requirements", value: "First time running `/setup`" },
                     { name: "• Usage", value: "`/setup password1234`" },
                 )
             await interaction.update({ embeds: [embed] });
@@ -150,11 +150,11 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed4") {
             embed.setTitle("save")
-                .setDescription("Save your entry")
+                .setDescription("Save your journal entry")
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
-                    { name: "• Requirements", value: "Can only be used in your personal journal thread\nMust have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Requirements", value: "Can only be used in your personal journal thread\nMust have completed `/setup`" },
                     { name: "• Usage", value: "`/save password1234`" },
                 )
             await interaction.update({ embeds: [embed] });
@@ -164,7 +164,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYY) of the journal entry you wish to view)\n[Required: No]" },
-                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usages", value: "`/get-entry password1234`\n`/get-entry password1234 01/01/2020`" },
                 )
             await interaction.update({ embeds: [embed] });
