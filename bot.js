@@ -2,11 +2,11 @@ require('dotenv').config();
 
 const { REST } = require('@discordjs/rest'),
     { Routes } = require('discord-api-types/v10'),
-    { Client, Collection } = require('discord.js')
+    { Client, Collection, Events, EmbedBuilder } = require('discord.js')
 
 const fs = require('fs'),
     path = require('path')
-    mongoose = require('mongoose')
+mongoose = require('mongoose')
 
 //allow bot to have access to guild and send messages
 const client = new Client({
@@ -107,3 +107,87 @@ process.on('SIGINT', exitHandler.bind(null, { exit: true }));
 process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
 
 client.login(process.env.DISCORD_TOKEN);
+
+
+client.on(Events.InteractionCreate, async interaction => {
+
+    if (!interaction.isMessageComponent()) return;
+
+    if (interaction.customId === 'select') {
+        const selectedOption = interaction.values[0];
+
+        const embed = new EmbedBuilder()
+
+        if (selectedOption === "embed1") {
+            embed.setTitle("setup")
+                .setDescription("Set up Daily Journal")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "set-password (A password used to save and view your journal entries)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Never have run `/setup` before" },
+                    { name: "• Usage", value: "`/setup password1234`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed2") {
+            embed.setTitle("forgot-pass")
+                .setDescription("Change your password if you have forgotten it")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "new-password (A password used to save and view your journal entries)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Usage", value: "`/forgot-pass newPass1234`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed3") {
+            embed.setTitle("add-entry")
+                .setDescription("Add an entry to your journal")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "None" },
+                    { name: "• Requirements", value: "Must be run in a valid text channel (where a thread can be created)" },
+                    { name: "• Usage", value: "`/add-entry`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed4") {
+            embed.setTitle("save")
+                .setDescription("Save your entry")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Can only be used in your personal journal thread\nMust have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Usage", value: "`/save password1234`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed5") {
+            embed.setTitle("get-entry")
+                .setDescription("Sends you a DM with your journal entry for the specified date")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYY) of the journal entry you wish to view)\n[Required: No]" },
+                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Usages", value: "`/get-entry password1234`\n`/get-entry password1234 01/01/2020`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed6") {
+            embed.setTitle("index")
+                .setDescription("See a list of your journal entry dates")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Usage", value: "`/index password1234`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed7") {
+            embed.setTitle("help")
+                .setDescription("Displays all the commands of the bot. If you select a command in the drop-down menu, it will return all available information about that command.")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "None" },
+                    { name: "• Requirements", value: "None" },
+                    { name: "• Usage", value: "`/help`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        }
+    }
+});

@@ -4,7 +4,7 @@ const CryptoJS = require("crypto-js");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('forgot-password') //name of command (displayed in discord)
+        .setName('forgot-pass') //name of command (displayed in discord)
         .setDescription("Reset your password if you've forgotten it") //description of command (displayed in discord)
         .addStringOption((option) =>
             option.setName('new-password')
