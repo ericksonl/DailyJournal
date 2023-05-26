@@ -12,6 +12,7 @@ DailyJournal is a Discord bot that brings the joy of journaling to your server. 
 ## About
 
 DailyJournal is a secure and private Discord bot that brings the joy of journaling to your server. With DailyJournal, you can keep track of your thoughts, experiences, and reflections with peace of mind.
+Disclaimer: This bot uses private threads to be your journal space. These threads can only be seen by you, the DailyJournal bot and users with Admin priviledges. Threads are automatically deleted once you save your journal. 
 
 ## Features
 
