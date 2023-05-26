@@ -21,6 +21,7 @@ module.exports = {
         const user = interaction.user
 
         let dailyJournalObj = {}
+        let moodChartObj = {}
 
         const data = await setupSchema.findOne({ UserID: user.id })
 
@@ -42,7 +43,8 @@ module.exports = {
                 await setupSchema.create({
                     UserID: user.id,
                     Key: hash,
-                    DailyJournal: dailyJournalObj
+                    DailyJournal: dailyJournalObj,
+                    MoodChart: moodChartObj
                 })
             })
 

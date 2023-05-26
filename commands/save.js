@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
@@ -49,71 +49,47 @@ module.exports = {
     const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
 
     if (isPasswordMatch) {
-      await interaction.reply("Saving...")
-      try {
-        //fetching messages sent by user
-        const messages = await channel.messages.fetch({ limit: 100 })
-        const allMessagesPostedByUser = messages.filter(msg => msg.author.id === user.id)
 
-        //messages are fetched backwards, so reverse the array
-        const reversedMessages = allMessagesPostedByUser.reverse()
+      //add mood chart here
+      const one = new ButtonBuilder()
+        .setCustomId('one')
+        .setLabel('1️')
+        .setStyle(ButtonStyle.Primary);
 
-        //join all messages with a new line between each message
-        const combinedContent = reversedMessages.map(msg => msg.content).join('\n');
+      const two = new ButtonBuilder()
+        .setCustomId('two')
+        .setLabel('2')
+        .setStyle(ButtonStyle.Primary);
 
-        var encrypt = CryptoJS.AES.encrypt(combinedContent, data.Key);
-        var encryptedMsg = encrypt.toString()
+      const three = new ButtonBuilder()
+        .setCustomId('three')
+        .setLabel('3')
+        .setStyle(ButtonStyle.Primary);
 
-        await journalSchema(interaction, user, encryptedMsg, data)
-      } catch (error) {
-        await interaction.followUp("There was a problem saving your messages. Please try again later")
-        console.log(error)
-      }
+      const four = new ButtonBuilder()
+        .setCustomId('four')
+        .setLabel('4')
+        .setStyle(ButtonStyle.Primary);
+
+      const five = new ButtonBuilder()
+        .setCustomId('five')
+        .setLabel('5')
+        .setStyle(ButtonStyle.Primary);
+
+      const row = new ActionRowBuilder()
+        .addComponents(one, two, three, four, five);
+
+      const embed = new EmbedBuilder()
+        .setTitle("Daily Mood Check-In")
+        .setColor(0x7289DA)
+        .setDescription("Please select how your feeling today on a scale of 1 (Not great) to 5 (Amazing)")
+    
+      await interaction.reply({
+        embeds: [embed],
+        components: [row],
+      });
     } else {
       await interaction.reply("Incorrect password!");
     }
-  }
-}
-
-async function journalSchema(interaction, user, encryptedMsg, data) {
-  const embed = new EmbedBuilder()
-
-  var date = new Date()
-
-  const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-
-  // Initialize inJournal with data.DailyJournal or an empty object if data.DailyJournal is empty
-  const inJournal = data.DailyJournal || {};
-  if (inJournal[currentDate] !== undefined) {
-    // Append the encrypted message to the existing entry for the current date
-    inJournal[currentDate].push(encryptedMsg);
-  } else {
-    // Create a new entry for the current date and store the encrypted message in it
-    inJournal[currentDate] = [encryptedMsg];
-  }
-
-  // Update the DailyJournal field in the database with the updated inJournal
-  await setupSchema.updateOne(
-    { UserID: user.id },
-    {
-      $set: { DailyJournal: inJournal }
-    })
-
-  // Build and send completion message via embed
-  embed.setTitle("Save Complete")
-    .setColor(0x7289DA)
-    .setDescription("Thanks for using DailyJournal! All messages in this thread have been saved. This thread will be automatically deleted in 10 seconds")
-  await interaction.followUp({ embeds: [embed] })
-
-  // delay thread deletion by 5 seconds
-  const delay = ms => new Promise(res => setTimeout(res, ms));
-
-  await delay(5000);
-  let thread = interaction.channel
-  try {
-    await thread.delete();
-  } catch (error) {
-    interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
-    console.log(error)
   }
 }

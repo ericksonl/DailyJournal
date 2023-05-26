@@ -6,7 +6,8 @@ const setupSchema = new Schema({
         type: String,
         maxLength: 80
     },
-    DailyJournal: Object
+    DailyJournal: Object,
+    MoodChart: Object
 }, { minimize: false })
 
 module.exports = model('journal-entries', setupSchema, 'journal-entries')
