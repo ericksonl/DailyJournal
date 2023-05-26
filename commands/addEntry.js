@@ -4,7 +4,7 @@ const setupSchema = require('../mongooseSchema/schema.js')
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add-entry') //name of command (displayed in discord)
-    .setDescription('Add an entry to the journal'), //description of command (displayed in discord)
+    .setDescription('Add an entry to your journal'), //description of command (displayed in discord)
 
   async execute(interaction) {
 

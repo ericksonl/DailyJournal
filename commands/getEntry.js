@@ -52,8 +52,6 @@ module.exports = {
       const embed = new EmbedBuilder();
 
       if (date === null) {
-        const keys = Object.keys(data.DailyJournal);
-
         embed
           .setTitle(`${user.username}'s Journal Entries`)
           .setColor(0x7289DA)
@@ -61,7 +59,7 @@ module.exports = {
 
         await interaction.reply({
           content: "Here is a list of the entries you have."
-            + "\nUse the command `/get-entry <password> <date>` to retrieve a specific entry.",
+            + "\nUse the command `/get-entry <password> <date>` to view a specific entry.",
           embeds: [embed]
         });
       } else if (saved_entries === undefined) {
