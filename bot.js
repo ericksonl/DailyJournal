@@ -113,7 +113,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
     if (!interaction.isMessageComponent()) return;
 
-    if (interaction.customId === 'select') {
+    if (interaction.customId === 'help-menu') {
         const selectedOption = interaction.values[0];
 
         const embed = new EmbedBuilder()
