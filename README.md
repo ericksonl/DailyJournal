@@ -8,7 +8,6 @@ DailyJournal is a Discord bot that brings the joy of journaling to your server. 
 - [Features](#features)
 - [Installation](#installation)
 - [Commands](#commands)
-- [License](#license)
 
 ## About
 
@@ -28,6 +27,15 @@ DailyJournal is a secure and private Discord bot that brings the joy of journali
 * Download and set up Node.js
 * Create a new application in the [Discord Developer Portal](https://discord.com/developers/applications). Save the `Token` and `Client ID Token`. A guide to do this can be found [here](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
 * Create a new project in [MongoDB](https://cloud.mongodb.com/). Save the `Connection String`. A guide to do this can be found [here](https://www.mongodb.com/docs/cloud-manager/tutorial/manage-projects/)
+
+Create a .env file in the root directory. It should look like the following:
+
+```env
+DISCORD_TOKEN = <Token>
+CLIENT_ID = <Client ID Token>
+
+DATABASE_TOKEN = <Connection String>
+```
 
 After you have the necessary requirements, run the following commands:
 
