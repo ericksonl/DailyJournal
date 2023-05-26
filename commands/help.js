@@ -13,9 +13,7 @@ module.exports = {
     const menu = new ActionRowBuilder()
       .addComponents(
         new StringSelectMenuBuilder()
-          .setCustomId('select')
-          .setMinValues(1)
-          .setMaxValues(1)
+          .setCustomId('help-menu')
           .setPlaceholder('Select a command to see more')
           .addOptions(
             {
