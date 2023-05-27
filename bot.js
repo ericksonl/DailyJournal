@@ -121,7 +121,7 @@ client.on(Events.InteractionCreate, async interaction => {
         const embed = new EmbedBuilder()
             .setTitle("Saving...")
             .setColor(0x7289DA)
-            .setDescription("Thanks for using DailyJournal! All messages in this thread are being saved. This thread will be automatically deleted in 5 seconds")
+            .setDescription("Thanks for using DailyJournal! All messages in this thread are being saved. This jouranl will be automatically closed in 5 seconds")
 
         if (btn_id === 'one') {
             await interaction.update({ embeds: [embed], components: [] });
@@ -191,7 +191,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setDescription("Sends you a DM with your journal entry for the specified date")
                 .setColor(0x7289DA)
                 .addFields(
-                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYY) of the journal entry you wish to view)\n[Required: No]" },
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYYY) of the journal entry you wish to view)\n[Required: No]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usages", value: "`/get-entry password1234`\n`/get-entry password1234 01/01/2020`" },
                 )
