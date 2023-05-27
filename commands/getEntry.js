@@ -53,8 +53,7 @@ module.exports = {
 
       if (saved_entries === undefined) {
         // no saved entries for the specified date
-        const keys = Object.keys(data.DailyJournal);
-
+        
         embed
           .setTitle(`${user.username}'s Journal Entries`)
           .setColor(0x7289DA)
