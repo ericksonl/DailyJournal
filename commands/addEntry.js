@@ -19,7 +19,7 @@ module.exports = {
     // 0 is normal text channel
     //If command is run inside anything besides a GUILD_TEXT channel the command will error
     if (channel.type !== 0) {
-      interaction.reply("Sorry, you cannot create a thread in this channel!")
+      interaction.reply("Sorry, you cannot do that in this channel!")
       return
     }
     
@@ -30,7 +30,7 @@ module.exports = {
       //if no data, user has not completed setup
       if (!data) {
         
-        await interaction.reply({ content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
+        await interaction.reply({ content: "Welcome to DailyJournal! It seems you're a first time user, please complete the setup to get started!" +
         '\nTo start you need to setup your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' + 
         '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true})
         
@@ -41,14 +41,14 @@ module.exports = {
 
         await thread.send({ content: 'Hello <@' + user + '>, ' })
         await thread.send({
-          content: "This is your daily Journal!\nWhen you're done typing remember to `/save` your entry.\nI will close this thread once your done," +
+          content: "This is your DailyJournal!\nWhen you're done typing remember to `/save` your entry.\nI will close this thread once your done," +
             "but don't worry! You can always add something to today's entry with `/add-entry`.\n**Remember: Moderators can see the contents of this thread.**"
         })
 
         //else there is data and no current journal open, so create a journal
       } else {
 
-        await interaction.reply({ content: '<@' + user + '>\nIts time to add an entry to your daily journal! A private thread has been created for you named: ' + threadName, ephemeral: true })
+        await interaction.reply({ content: '<@' + user + '>\nIts time to add an entry to your DailyJournal! A private thread has been created for you named: ' + threadName, ephemeral: true })
 
         try {
           // Create a new private thread
@@ -57,14 +57,14 @@ module.exports = {
               name: threadName,
               autoArchiveDuration: 60,
               type: privateThread,
-              reason: 'Daily journal',
+              reason: 'DailyJournal',
             })
 
           await threadChannel.members.add(user);
 
           await threadChannel.send({ content: 'Hello ' + userName + '! ' })
           await threadChannel.send({
-            content: "Its time to add to your daily journal!\nWhen you're done typing remember to `/save` your entry.\nI will close this thread once your done," +
+            content: "Its time to add to your DailyJournal!\nWhen you're done typing remember to `/save` your entry.\nI will close this thread once your done," +
               "but don't worry! You can always add something to today's entry with `/add-entry`.\n**Remember: Moderators can see the contents of this thread.**"
           })
 

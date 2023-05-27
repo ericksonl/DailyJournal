@@ -27,7 +27,7 @@ module.exports = {
     if (!data) {
       //user is a first-time user, provide setup instructions
       await interaction.reply({
-        content: `Welcome to Daily Journal! It seems you're a first-time user. Please complete the setup to get started!
+        content: `Welcome to DailyJournal! It seems you're a first-time user. Please complete the setup to get started!
           \nTo start, you need to set up your account and create a password using the command "/setup". Your password will be used to access your past journal entries.
           \n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**`,
         ephemeral: true
@@ -45,7 +45,7 @@ module.exports = {
     }
 
     //compare given password with the hashed password in database
-    const isPasswordMatch = bcrypt.compare(plainPassword, data.Key);
+    const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
 
     if (isPasswordMatch) {
 

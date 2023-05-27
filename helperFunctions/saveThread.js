@@ -12,6 +12,7 @@ async function saveThread(interaction, value) {
   try {
     //fetching messages sent by user
     const messages = await channel.messages.fetch({ limit: 100 })
+    
     const allMessagesPostedByUser = messages.filter(msg => msg.author.id === user.id)
 
     //messages are fetched backwards, so reverse the array
@@ -19,6 +20,8 @@ async function saveThread(interaction, value) {
 
     //join all messages with a new line between each message
     const combinedContent = reversedMessages.map(msg => msg.content).join('\n');
+
+    
 
     var encrypt = CryptoJS.AES.encrypt(combinedContent, data.Key);
     var encryptedMsg = encrypt.toString()
@@ -46,10 +49,12 @@ async function journalSchema(interaction, user, encryptedMsg, data, value) {
   if (inJournal[currentDate] !== undefined) {
     // Append the encrypted message to the existing entry for the current date
     inJournal[currentDate].push(encryptedMsg);
+    console.log(inJournal[currentDate])
     MoodChart[currentDate] = value
   } else {
     // Create a new entry for the current date and store the encrypted message in it
     inJournal[currentDate] = [encryptedMsg];
+    console.log(inJournal[currentDate])
     MoodChart[currentDate] = value
   }
 
@@ -66,14 +71,14 @@ async function journalSchema(interaction, user, encryptedMsg, data, value) {
   // delay thread deletion by 5 seconds
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  await delay(5000);
-  let thread = interaction.channel
-  try {
-    await thread.delete();
-  } catch (error) {
-    interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
-    console.log(error)
-  }
+  // await delay(5000);
+  // let thread = interaction.channel
+  // try {
+  //   await thread.delete();
+  // } catch (error) {
+  //   interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
+  //   console.log(error)
+  // }
 }
 
 module.exports = { saveThread };

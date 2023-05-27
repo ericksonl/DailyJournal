@@ -3,6 +3,11 @@ const setupSchema = require('../mongooseSchema/schema.js')
 const { SlashCommandBuilder } = require('discord.js')
 const { spawn } = require('child_process')
 
+
+//TODO: 
+// Create mood charts for the month and year
+// Graphs are set sizes, and the more data the worse the graph looks
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('mood-chart')
@@ -16,11 +21,16 @@ module.exports = {
     // Retrieve data from database
     const data = await setupSchema.findOne({ UserID: user })
 
+    await interaction.reply({
+      content: "Compiling your mood chart...",
+      ephemeral: true
+    })
+
     // Check if user has data in the databse
     if (!data) {
       // User is a first-time user, provide setup instructions
       await interaction.reply({
-        content: `Welcome to Daily Journal! It seems you're a first-time user. Please complete the setup to get started!
+        content: `Welcome to DailyJournal! It seems you're a first-time user. Please complete the setup to get started!
           \nTo start, you need to set up your account and create a password using the command "/setup". Your password will be used to access your past journal entries.
           \n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**`,
         ephemeral: true
@@ -29,21 +39,35 @@ module.exports = {
     }
 
     // Extract keys and values from MoodChart object
-    const keys = Object.keys(data.MoodChart)
-    const values = Object.values(data.MoodChart)
+    const val_array = Object.keys(data.MoodChart)
+    const num_array = Object.values(data.MoodChart)
 
-     // Assign keys as num_array and values as val_array
-    const num_array = values
-    const val_array = keys
+    console.log(val_array, num_array)
 
-     // Prepare arguments to pass to Python script
-    const args = [num_array, val_array, user, userName]
+    if (val_array.length === 0 || num_array.length === 0) {
+      // User is a first-time user, provide setup instructions
+      await interaction.reply({
+        content: "Hey there DailyJournal user!\nTo be able to access your Mood Chart, you must have at least one entry!\nYou can start a new journal entry by typing `/add-entry`",
+        ephemeral: true
+      })
+      return
+    }
+
+    // Prepare arguments to pass to Python script
+
+    //TODO:
+    // Have the user give a month or by default resort to the year
+    // Idk if theres a better way but im sure you can think of it when its not 2am
+    // GOd im tired
+
+    const month = "June"
+    const args = [num_array, val_array, user, userName, month]
     const savePath = `./helperFunctions/graphImages/${user}graph.png`
 
-     // Spawn a child process for running the Python script
+    // Spawn a child process for running the Python script
     const pythonProcess = spawn('python', ['./helperFunctions/plotMoods.py', ...args])
 
-     // Listen for the close event of the Python process
+    // Listen for the close event of the Python process
     pythonProcess.on('close', (code) => {
       if (code === 0) {
         fs.readFile(savePath, async (err, data) => {
@@ -61,7 +85,7 @@ module.exports = {
               ],
             })
               .then(async () => {
-                await interaction.reply({ content: "Your mood chart has been sent to your DM's", ephemeral: true})
+                await interaction.followUp({ content: "Your mood chart has been sent to your DM's", ephemeral: true })
               })
 
             // Delete the generated image

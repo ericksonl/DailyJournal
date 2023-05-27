@@ -8,7 +8,7 @@ module.exports = {
         .setDescription("Reset your password if you've forgotten it") //description of command (displayed in discord)
         .addStringOption((option) =>
             option.setName('new-password')
-                .setDescription("The password you will use to save and view your daily journals")
+                .setDescription("The password you will use to save and view your journal entries")
                 .setRequired(true)),
 
     async execute(interaction) {
@@ -27,7 +27,7 @@ module.exports = {
         setupSchema.findOne({ UserID: user }, async (err, data) => {
             if (!data) {
                 await interaction.reply({
-                    content: "Welcome to Daily Journal! It seems you're a first time user, please complete the setup to get started!" +
+                    content: "Welcome to DailyJournal! It seems you're a first time user, please complete the setup to get started!" +
                         '\nTo start you need to setup your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' +
                         '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true
                 })
