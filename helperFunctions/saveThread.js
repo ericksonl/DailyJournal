@@ -31,11 +31,13 @@ async function saveThread(interaction, value) {
 }
 
 async function journalSchema(interaction, user, encryptedMsg, data, value) {
-  const embed = new EmbedBuilder()
-
   var date = new Date()
 
-  const currentDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getFullYear();
+
+  const currentDate = `${month}/${day}/${year}`;
 
   // Initialize inJournal with data.DailyJournal or an empty object if data.DailyJournal is empty
   const inJournal = data.DailyJournal || {};

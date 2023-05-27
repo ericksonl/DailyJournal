@@ -48,7 +48,7 @@ module.exports = {
       )
 
     embed.setTitle("DailyJournal | Help Menu")
-      .setDescription("Select an option from the drop-down to see more information about that command")
+      .setDescription("Select an option from the drop-down menu below to see more information about these commands")
       .setColor(0x7289DA)
       .addFields(
         { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
