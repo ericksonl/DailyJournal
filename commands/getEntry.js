@@ -53,7 +53,7 @@ module.exports = {
 
       if (saved_entries === undefined) {
         // no saved entries for the specified date
-        
+
         embed
           .setTitle(`${user.username}'s Journal Entries`)
           .setColor(0x7289DA)
@@ -84,7 +84,7 @@ module.exports = {
         //send the jounral entry as a DM to the user
         await user.send({ embeds: [embed] })
           .then(async () => {
-            await interaction.reply("Your journal entry has been sent to your DM's");
+            await interaction.reply({ content: "Your journal entry has been sent to your DM's", ephemeral: true});
           })
       }
     } else {
