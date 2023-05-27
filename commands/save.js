@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
-const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -46,7 +45,7 @@ module.exports = {
     }
 
     //compare given password with the hashed password in database
-    const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
+    const isPasswordMatch = bcrypt.compare(plainPassword, data.Key);
 
     if (isPasswordMatch) {
 
