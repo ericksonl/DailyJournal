@@ -41,8 +41,12 @@ module.exports = {
               value: "embed6"
             },
             {
-              label: 'help',
+              label: 'mood-chart',
               value: "embed7"
+            },
+            {
+              label: 'help',
+              value: "embed8"
             },
           ),
       )
@@ -52,8 +56,8 @@ module.exports = {
       .setColor(0x7289DA)
       .addFields(
         { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
-        { name: "Journal Commands", value: "`/add-entry`\n`/save`\n`/get-entry`\n`/index`" },
-        { name: "Extra Commands", value: "`/help`" },
+        { name: "Journal Commands", value: "`/add-entry`\n`/save`\n`/get-entry`" },
+        { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" },
       )
     await interaction.reply({ embeds: [embed], components: [menu] })
   }

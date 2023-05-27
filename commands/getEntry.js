@@ -28,7 +28,7 @@ module.exports = {
     if (!data) {
       //user is a first-time user, provide setup instructions
       await interaction.reply({
-        content: `Welcome to Daily Journal! It seems you're a first-time user. Please complete the setup to get started!
+        content: `Welcome to DailyJournal! It seems you're a first-time user. Please complete the setup to get started!
           \nTo start, you need to set up your account and create a password using the command "/setup". Your password will be used to access your past journal entries.
           \n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**`,
         ephemeral: true
@@ -45,7 +45,10 @@ module.exports = {
 
       //if user has no saved entries
       if (keys.length === 0) {
-        await interaction.reply("You don't have any saved entries yet! Please use `/add-entry` to get started!")
+        await interaction.reply({
+          content: "Hey there DailyJournal user!\nTo be able to access your journal entries, you must have at least one entry!\nYou can start a new journal entry by typing `/add-entry`",
+          ephemeral: true
+        })
         return
       }
 

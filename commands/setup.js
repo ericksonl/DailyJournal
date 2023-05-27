@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setup') //name of command (displayed in discord)
-        .setDescription('Set up Daily Journal') //description of command (displayed in discord)
+        .setDescription('Set up DailyJournal') //description of command (displayed in discord)
         .addStringOption((option) =>
             option.setName('set-password')
                 .setDescription("used to save and view your journal entries")
@@ -56,7 +56,7 @@ module.exports = {
                 ephemeral: true
             })
         } else {
-            interaction.reply({ content: "It looks like you already completed the setup.\n If you need to, you can reset your password using the `/forgot-password` command.", ephemeral: true })
+            interaction.reply({ content: "Hey there DailyJournal user!\nIt looks like you already completed the setup!\nIf you need to, you can reset your password using the `/forgot-password` command.", ephemeral: true })
         }
     }
 }

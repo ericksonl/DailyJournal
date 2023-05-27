@@ -148,7 +148,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
         if (selectedOption === "embed1") {
             embed.setTitle("setup")
-                .setDescription("Set up Daily Journal")
+                .setDescription("Set up DailyJournal")
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "set-password (A password used to save and view your journal entries)\n[Required: Yes]" },
@@ -162,7 +162,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "new-password (A password used to save and view your journal entries)\n[Required: Yes]" },
-                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usage", value: "`/forgot-pass newPass1234`" },
                 )
             await interaction.update({ embeds: [embed] });
@@ -202,11 +202,21 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
-                    { name: "• Requirements", value: "Must have completed the `/setup` and be an active DailyJournal user" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usage", value: "`/index password1234`" },
                 )
             await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed7") {
+            embed.setTitle("mood-chart")
+                .setDescription("Sends you a graphical representation of your documented moods")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "None" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
+                    { name: "• Usage", value: "`/mood-chart`" },
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed8") {
             embed.setTitle("help")
                 .setDescription("Displays all the commands of the bot. If you select a command in the drop-down menu, it will return all available information about that command.")
                 .setColor(0x7289DA)
