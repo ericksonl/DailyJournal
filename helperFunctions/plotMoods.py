@@ -13,6 +13,7 @@ num_array = [int(num) for num in num_array]  # Convert string elements to intege
 labels = sys.argv[2].split(',')
 user = args[2]
 userName = args[3]
+target_month = args[4]  # User-provided month
 
 average_value = sum(num_array) / len(num_array)
 
@@ -26,7 +27,6 @@ unique_months = list(set(month_labels))
 print(args[-1])
 
 # Specify the target month based on user input
-target_month = args[4]  # User-provided month
 month_indices = [i for i, m in enumerate(month_labels) if m == target_month]
 month_values = [num_array[i] for i in month_indices]
 month_average = average_value  # Assuming the average value is calculated from all the data
@@ -40,7 +40,7 @@ ax.plot(month_x, [month_average] * len(month_indices), color="red", linestyle="-
 
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
-ax.set_title(userName + "'s Mood Plot")
+ax.set_title(userName + "'s " + target_month + " Mood Plot")
 ax.legend()  # Show legend with plot labels
 
 ax.set_xticks(month_x)
