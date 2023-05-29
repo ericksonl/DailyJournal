@@ -12,10 +12,7 @@ module.exports = {
                 .setRequired(true)),
 
     async execute(interaction) {
-
-        const user = interaction.user.id
-        
-        const { options } = interaction
+        const { options, user } = interaction
 
         const userPassword = options.getString("new-password")
 

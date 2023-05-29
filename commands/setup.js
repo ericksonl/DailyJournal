@@ -15,10 +15,8 @@ module.exports = {
 
     async execute(interaction) {
 
-        const { options } = interaction
+        const { options, user } = interaction
         const userPassword = options.getString("set-password")
-
-        const user = interaction.user
 
         let dailyJournalObj = {}
         let moodChartObj = {}
