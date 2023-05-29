@@ -12,8 +12,7 @@ module.exports = {
                 .setRequired(true)),
 
     async execute(interaction) {
-        const { options } = interaction
-        const user = interaction.user
+        const { options, user } = interaction
         const plainPassword = options.getString('password')
 
         const data = await setupSchema.findOne({ UserID: user.id })

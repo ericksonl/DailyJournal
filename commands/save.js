@@ -12,13 +12,12 @@ module.exports = {
         .setRequired(true)),
 
   async execute(interaction) {
-    const { options } = interaction
+    const { options, user } = interaction
     const plainPassword = options.getString('password')
 
     const channel = interaction.channel
     const privateThread = 12
 
-    const user = interaction.user
     const threadName = `${user.username}#${user.discriminator}'s-Daily-Journal`
 
     const data = await setupSchema.findOne({ UserID: user.id })

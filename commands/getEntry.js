@@ -17,8 +17,7 @@ module.exports = {
         .setRequired(true)),
 
   async execute(interaction) {
-    const { options } = interaction
-    const user = interaction.user
+    const { options, user } = interaction
     const date = options.getString('date')
     const plainPassword = options.getString('password')
 

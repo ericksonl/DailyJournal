@@ -1,5 +1,4 @@
 
-const { EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 const CryptoJS = require("crypto-js");
 
@@ -71,14 +70,14 @@ async function journalSchema(interaction, user, encryptedMsg, data, value) {
   // delay thread deletion by 5 seconds
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  // await delay(5000);
-  // let thread = interaction.channel
-  // try {
-  //   await thread.delete();
-  // } catch (error) {
-  //   interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
-  //   console.log(error)
-  // }
+  await delay(5000);
+  let thread = interaction.channel
+  try {
+    await thread.delete();
+  } catch (error) {
+    interaction.followUp("There was an error when trying to delete the thread!\nPlease manually close this thread.")
+    console.log(error)
+  }
 }
 
 module.exports = { saveThread };
