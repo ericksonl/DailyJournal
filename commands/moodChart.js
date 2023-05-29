@@ -1,8 +1,8 @@
 const fs = require('fs')
+const bcrypt = require('bcrypt');
 const setupSchema = require('../mongooseSchema/schema.js')
 const { SlashCommandBuilder } = require('discord.js')
 const { spawn } = require('child_process')
-
 
 //TODO: 
 // Create mood charts for the month and year
@@ -11,15 +11,30 @@ const { spawn } = require('child_process')
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('mood-chart')
-    .setDescription('Sends you a graphical representation of your documented moods'),
+    .setDescription('Sends you a graphical representation of your documented moods')
+    .addStringOption((option) =>
+    option.setName('password')
+      .setDescription('Your DailyJournal password')
+      .setRequired(true)),
 
   async execute(interaction) {
     // Gather user ID and username
-    const user = interaction.user.id
-    const userName = interaction.user.username
+    const { options, user } = interaction
+    const plainPassword = options.getString('password')
 
     // Retrieve data from database
-    const data = await setupSchema.findOne({ UserID: user })
+    const data = await setupSchema.findOne({ UserID: user.id })
+
+
+    const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
+
+    if (!isPasswordMatch) {
+      await interaction.reply({
+        content: "Incorrect password!",
+        ephemeral: true
+      })
+      return
+    }
 
     await interaction.reply({
       content: "Compiling your mood chart...",
@@ -60,9 +75,9 @@ module.exports = {
     // Idk if theres a better way but im sure you can think of it when its not 2am
     // GOd im tired
 
-    const month = "June"
-    const args = [num_array, val_array, user, userName, month]
-    const savePath = `./helperFunctions/graphImages/${user}graph.png`
+    const month = "May"
+    const args = [num_array, val_array, user.id, user.username, month]
+    const savePath = `./helperFunctions/graphImages/${user.id}graph.png`
 
     // Spawn a child process for running the Python script
     const pythonProcess = spawn('python', ['./helperFunctions/plotMoods.py', ...args])

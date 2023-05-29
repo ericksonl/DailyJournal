@@ -58,6 +58,9 @@ npm install
 | `/setup` | Set up DailyJournal | `set-password` | - First time running `/setup` | `/setup pass1234`
 | `/forgot-pass` | Change your password if you have forgotten it | `new-password` | - Must have completed `/setup` | `/forgot-pass newPass1234`
 | `/add-entry` | Add an entry to your journal | None | - Must be run in a valid text channel (where a thread can be created) | `/add-entry`
+| `/get-entry` | Sends you a DM with your journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/get-entry password1234 01/01/2020`
+| `/delete-entry` | Deletes the journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/delete-entry pass1234 1/01/2020`
 | `/save` | Save your journal entry | `password` | - Can only be used in your personal journal thread <br /> - Must have completed `/setup` | `/save pass1234`
-| `/get-entry` | Sends you a DM with your journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/getEntry pass1234 1/01/2020`
-| `/help` | Displays all the commands of the bot. | None | None | `/help`
+| `/index` | See a list of your journal entry dates | `password` | Must have completed `/setup` | `/index pass1234`
+| `/mood-chart` | Sends you a graphical representation of your documented moods | `password` | Must have completed `/setup` | `/mood-chart pass1234`
+| `/help` | Displays all the commands of the bot | None | None | `/help`

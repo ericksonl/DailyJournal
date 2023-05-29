@@ -153,7 +153,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .addFields(
                     { name: "• Arguments", value: "set-password (A password used to save and view your journal entries)\n[Required: Yes]" },
                     { name: "• Requirements", value: "First time running `/setup`" },
-                    { name: "• Usage", value: "`/setup password1234`" },
+                    { name: "• Usage", value: "`/setup password1234`" }
                 )
             await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed2") {
@@ -163,7 +163,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 .addFields(
                     { name: "• Arguments", value: "new-password (A password used to save and view your journal entries)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
-                    { name: "• Usage", value: "`/forgot-pass newPass1234`" },
+                    { name: "• Usage", value: "`/forgot-pass newPass1234`" }
                 )
             await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed3") {
@@ -173,57 +173,67 @@ client.on(Events.InteractionCreate, async interaction => {
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "Must be run in a valid text channel (where a thread can be created)" },
-                    { name: "• Usage", value: "`/add-entry`" },
+                    { name: "• Usage", value: "`/add-entry`" }
                 )
             await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed4") {
+            embed.setTitle("get-entry")
+                .setDescription("Sends you a DM with your journal entry for the specified date")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYYY) of the journal entry you wish to view)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
+                    { name: "• Usages", value: "`/get-entry password1234 01/01/2020`" }
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed5") {
+            embed.setTitle("delete-entry")
+                .setDescription("Deletes the journal entry for the specified date")
+                .setColor(0x7289DA)
+                .addFields(
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYYY) of the journal entry you wish to delete)\n[Required: Yes]" },
+                    { name: "• Requirements", value: "Must have completed `/setup`" },
+                    { name: "• Usages", value: "`/delete-entry password1234 01/01/2020`" }
+                )
+            await interaction.update({ embeds: [embed] });
+        } else if (selectedOption === "embed6") {
             embed.setTitle("save")
                 .setDescription("Save your journal entry")
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Can only be used in your personal journal thread\nMust have completed `/setup`" },
-                    { name: "• Usage", value: "`/save password1234`" },
+                    { name: "• Usage", value: "`/save password1234`" }
                 )
             await interaction.update({ embeds: [embed] });
-        } else if (selectedOption === "embed5") {
-            embed.setTitle("get-entry")
-                .setDescription("Sends you a DM with your journal entry for the specified date")
-                .setColor(0x7289DA)
-                .addFields(
-                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]\n\ndate (the date (MM/DD/YYYY) of the journal entry you wish to view)\n[Required: No]" },
-                    { name: "• Requirements", value: "Must have completed `/setup`" },
-                    { name: "• Usages", value: "`/get-entry password1234`\n`/get-entry password1234 01/01/2020`" },
-                )
-            await interaction.update({ embeds: [embed] });
-        } else if (selectedOption === "embed6") {
+        } else if (selectedOption === "embed7") {
             embed.setTitle("index")
                 .setDescription("See a list of your journal entry dates")
                 .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
-                    { name: "• Usage", value: "`/index password1234`" },
+                    { name: "• Usage", value: "`/index password1234`" }
                 )
             await interaction.update({ embeds: [embed] });
-        } else if (selectedOption === "embed7") {
+        } else if (selectedOption === "embed8") {
             embed.setTitle("mood-chart")
                 .setDescription("Sends you a graphical representation of your documented moods")
                 .setColor(0x7289DA)
                 .addFields(
-                    { name: "• Arguments", value: "None" },
+                    { name: "• Arguments", value: "password (Your DailyJournal password)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
-                    { name: "• Usage", value: "`/mood-chart`" },
+                    { name: "• Usage", value: "`/mood-chart pass1234`" }
                 )
             await interaction.update({ embeds: [embed] });
-        } else if (selectedOption === "embed8") {
-            embed.setTitle("help")
-                .setDescription("Displays all the commands of the bot. If you select a command in the drop-down menu, it will return all available information about that command.")
+        } else if (selectedOption === "embed9") {
+            embed.setTitle("DailyJournal | Help Menu")
+                .setDescription("Select an option from the drop-down menu below to see more information about these commands")
                 .setColor(0x7289DA)
                 .addFields(
-                    { name: "• Arguments", value: "None" },
-                    { name: "• Requirements", value: "None" },
-                    { name: "• Usage", value: "`/help`" },
+                    { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
+                    { name: "Journal Commands", value: "`/add-entry`\n`/get-entry`\n`/delete-entry`\n`/save`" },
+                    { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" }
                 )
             await interaction.update({ embeds: [embed] });
         }

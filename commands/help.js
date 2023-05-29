@@ -29,35 +29,39 @@ module.exports = {
               value: "embed3"
             },
             {
-              label: 'save',
+              label: 'get-entry',
               value: "embed4"
             },
             {
-              label: 'get-entry',
+              label: 'delete-entry',
               value: "embed5"
             },
             {
-              label: 'index',
+              label: 'save',
               value: "embed6"
             },
             {
-              label: 'mood-chart',
+              label: 'index',
               value: "embed7"
             },
             {
-              label: 'help',
+              label: 'mood-chart',
               value: "embed8"
             },
+            {
+              label: 'help',
+              value: "embed9"
+            }
           ),
       )
 
-    embed.setTitle("DailyJournal | Help Menu")
+      embed.setTitle("DailyJournal | Help Menu")
       .setDescription("Select an option from the drop-down menu below to see more information about these commands")
       .setColor(0x7289DA)
       .addFields(
-        { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
-        { name: "Journal Commands", value: "`/add-entry`\n`/save`\n`/get-entry`" },
-        { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" },
+          { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
+          { name: "Journal Commands", value: "`/add-entry`\n`/get-entry`\n`/delete-entry`\n`/save`" },
+          { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" }
       )
     await interaction.reply({ embeds: [embed], components: [menu] })
   }
