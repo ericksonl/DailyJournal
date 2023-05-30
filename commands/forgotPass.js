@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
         const { options } = interaction
 
-        const userPassword = options.getString("new-password")
+        // const userPassword = options.getString("new-password")
 
         interaction.reply({
             content: "This command is currently being created",
