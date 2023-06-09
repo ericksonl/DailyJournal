@@ -80,7 +80,7 @@ module.exports = {
     const savePath = `./helperFunctions/graphImages/${user.id}graph.png`
 
     // Spawn a child process for running the Python script
-    const pythonProcess = spawn('python', ['./helperFunctions/plotMoods.py', ...args])
+    const pythonProcess = spawn('python3', ['./helperFunctions/plotMoods.py', ...args])
 
     // Listen for the close event of the Python process
     pythonProcess.on('close', (code) => {
