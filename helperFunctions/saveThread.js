@@ -20,9 +20,10 @@ async function saveThread(interaction, value) {
     //join all messages with a new line between each message
     const combinedContent = reversedMessages.map(msg => msg.content).join('\n');
 
-    
+    const decryptedKey = CryptoJS.AES.decrypt(data.Key, process.env.MASTER_KEY);
+    const actualKey = decryptedKey.toString(CryptoJS.enc.Utf8);
 
-    var encrypt = CryptoJS.AES.encrypt(combinedContent, data.Key);
+    var encrypt = CryptoJS.AES.encrypt(combinedContent, actualKey);
     var encryptedMsg = encrypt.toString()
 
     await journalSchema(interaction, user, encryptedMsg, data, value)
@@ -48,12 +49,10 @@ async function journalSchema(interaction, user, encryptedMsg, data, value) {
   if (inJournal[currentDate] !== undefined) {
     // Append the encrypted message to the existing entry for the current date
     inJournal[currentDate].push(encryptedMsg);
-    console.log(inJournal[currentDate])
     MoodChart[currentDate] = value
   } else {
     // Create a new entry for the current date and store the encrypted message in it
     inJournal[currentDate] = [encryptedMsg];
-    console.log(inJournal[currentDate])
     MoodChart[currentDate] = value
   }
 
