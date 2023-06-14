@@ -7,10 +7,6 @@ module.exports = {
     .setName('delete-entry') //name of command (displayed in discord)
     .setDescription('Sends you a direct message with your journal entry on the given date') //description of command (displayed in discord)
     .addStringOption((option) =>
-      option.setName('password')
-        .setDescription('Your DailyJournal password')
-        .setRequired(true))
-    .addStringOption((option) =>
       option.setName('date')
         .setDescription("Date of the journal entry")
         .setRequired(true)),
@@ -18,7 +14,6 @@ module.exports = {
   async execute(interaction) {
     const { options, user } = interaction
     const date = options.getString('date')
-    const plainPassword = options.getString('password')
 
     const data = await setupSchema.findOne({ UserID: user.id })
 
@@ -27,23 +22,22 @@ module.exports = {
       //user is a first-time user, provide setup instructions
       await interaction.reply({
         content: `Welcome to DailyJournal! It seems you're a first-time user. Please complete the setup to get started!
-          \nTo start, you need to set up your account and create a password using the command "/setup". Your password will be used to access your past journal entries.
-          \n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**`,
+          \nTo start, you need to set up your account and create a password using the command "/setup".`,
         ephemeral: true
       });
       return;
     }
 
     //compare given password with the hashed password in database
-    const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
+    // const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
 
-    if (!isPasswordMatch) {
-      await interaction.reply({
-        content: "Incorrect password!",
-        ephemeral: true
-      })
-      return
-    }
+    // if (!isPasswordMatch) {
+    //   await interaction.reply({
+    //     content: "Incorrect password!",
+    //     ephemeral: true
+    //   })
+    //   return
+    // }
 
     const keys = Object.keys(data.DailyJournal)
     const saved_entries = data.DailyJournal[date];

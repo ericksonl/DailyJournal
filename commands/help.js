@@ -21,36 +21,32 @@ module.exports = {
               value: "embed1"
             },
             {
-              label: 'forgot-pass',
+              label: 'add-entry',
               value: "embed2"
             },
             {
-              label: 'add-entry',
+              label: 'get-entry',
               value: "embed3"
             },
             {
-              label: 'get-entry',
+              label: 'delete-entry',
               value: "embed4"
             },
             {
-              label: 'delete-entry',
+              label: 'save',
               value: "embed5"
             },
             {
-              label: 'save',
+              label: 'index',
               value: "embed6"
             },
             {
-              label: 'index',
+              label: 'mood-chart',
               value: "embed7"
             },
             {
-              label: 'mood-chart',
-              value: "embed8"
-            },
-            {
               label: 'help',
-              value: "embed9"
+              value: "embed8"
             }
           ),
       )
@@ -59,7 +55,7 @@ module.exports = {
       .setDescription("Select an option from the drop-down menu below to see more information about these commands")
       .setColor(0x7289DA)
       .addFields(
-          { name: "Configuration Commands", value: "`/setup`\n`/forgot-pass`" },
+          { name: "Configuration Commands", value: "`/setup`" },
           { name: "Journal Commands", value: "`/add-entry`\n`/get-entry`\n`/delete-entry`\n`/save`" },
           { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" }
       )

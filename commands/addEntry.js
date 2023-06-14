@@ -30,9 +30,8 @@ module.exports = {
       //if no data, user has not completed setup
       if (!data) {
         
-        await interaction.reply({ content: "Welcome to DailyJournal! It seems you're a first time user, please complete the setup to get started!" +
-        '\nTo start you need to setup your account and create a password using the command `/setup`. Your password will be used to save and access your journal entries.' + 
-        '\n**WRITE THIS DOWN IN A SAFE PLACE AND DO NOT GIVE IT OUT TO ANYONE**', ephemeral: true})
+        await interaction.reply({ content: "Welcome to DailyJournal!"
+        , ephemeral: true})
         
         //else if there is data, and a current journal open, redirect user to the open journal
       } else if (data && thread !== undefined) {
@@ -48,7 +47,7 @@ module.exports = {
         //else there is data and no current journal open, so create a journal
       } else {
 
-        await interaction.reply({ content: '<@' + user + '>\nIts time to add an entry to your DailyJournal! A private thread has been created for you named: ' + threadName, ephemeral: true })
+        await interaction.reply({ content: '<@' + user + '>\nJournal time! A private thread has been created for you named: ' + threadName, ephemeral: true })
 
         try {
           // Create a new private thread
