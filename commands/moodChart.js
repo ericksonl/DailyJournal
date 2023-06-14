@@ -13,10 +13,6 @@ module.exports = {
     .setName('mood-chart')
     .setDescription('Sends you a graphical representation of your documented moods')
     .addStringOption((option) =>
-      option.setName('password')
-        .setDescription('Your DailyJournal password')
-        .setRequired(true))
-    .addStringOption((option) =>
       option.setName('month')
         .setDescription('The month of the mood chart idk')
         .setRequired(false)),
@@ -24,7 +20,7 @@ module.exports = {
   async execute(interaction) {
     // Gather user ID and username
     const { options, user } = interaction
-    const plainPassword = options.getString('password')
+    // const plainPassword = options.getString('password')
     let month = options.getString('month')
     
     if (month !== null) {
@@ -34,15 +30,15 @@ module.exports = {
     // Retrieve data from database
     const data = await setupSchema.findOne({ UserID: user.id })
 
-    const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
+    // const isPasswordMatch = await bcrypt.compare(plainPassword, data.Key);
 
-    if (!isPasswordMatch) {
-      await interaction.reply({
-        content: "Incorrect password!",
-        ephemeral: true
-      })
-      return
-    }
+    // if (!isPasswordMatch) {
+    //   await interaction.reply({
+    //     content: "Incorrect password!",
+    //     ephemeral: true
+    //   })
+    //   return
+    // }
 
     if (!isValidMonth(month)) {
       await interaction.reply({
