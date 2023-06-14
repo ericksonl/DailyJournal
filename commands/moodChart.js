@@ -1,5 +1,5 @@
 const fs = require('fs')
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const setupSchema = require('../mongooseSchema/schema.js')
 const { SlashCommandBuilder } = require('discord.js')
 const { spawn } = require('child_process')

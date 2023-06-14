@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const CryptoJS = require("crypto-js");
 
 module.exports = {
