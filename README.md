@@ -20,10 +20,7 @@ Disclaimer: This bot uses private threads to be your journal space. These thread
 ## Features
 
 * **Encryption at Rest:** All messages added to your journal are encrypted using AES encryption, ensuring that your entries remain confidential and secure.
-* **Password Protection:** Each entry is password protected using the user's chosen password, adding an extra layer of security to your personal writings.
-* **Secure Password Storage:** Passwords are securely hashed using salt and bcrypt, preventing unauthorized access to your journal.
 * **Past Journal Entry Lookup:** Easily browse and revisit your past journal entries, providing a valuable reference to reflect on your personal growth and experiences.
-* **Entry Sharing:** Share selected entries with others, allowing you to express and communicate your thoughts, stories, or ideas with friends or trusted individuals.
 * **Mood Chart:** Track your mood over time with a built-in mood chart, providing insights into your emotional well-being and patterns.
 
 ## Installation
@@ -39,6 +36,7 @@ DISCORD_TOKEN = <Token>
 CLIENT_ID = <Client ID Token>
 
 DATABASE_TOKEN = <Connection String>
+MASTER_KEY = <Strong key you create>
 ```
 
 After you have the necessary requirements, run the following commands:
@@ -55,12 +53,11 @@ npm install
 
 | Command | Description | Arguments | Requirements | Usage(s) |
 | --- | --- | --- | --- | --- |
-| `/setup` | Set up DailyJournal | `set-password` | - First time running `/setup` | `/setup pass1234`
-| `/forgot-pass` | Change your password if you have forgotten it | `new-password` | - Must have completed `/setup` | `/forgot-pass newPass1234`
+| `/setup` | Set up DailyJournal | None | - First time running `/setup` | `/setup`
 | `/add-entry` | Add an entry to your journal | None | - Must be run in a valid text channel (where a thread can be created) | `/add-entry`
-| `/get-entry` | Sends you a DM with your journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/get-entry password1234 01/01/2020`
-| `/delete-entry` | Deletes the journal entry for the specified date | `password` <br /> `date` | Must have completed `/setup` | `/delete-entry pass1234 1/01/2020`
-| `/save` | Save your journal entry | `password` | - Can only be used in your personal journal thread <br /> - Must have completed `/setup` | `/save pass1234`
-| `/index` | See a list of your journal entry dates | `password` | Must have completed `/setup` | `/index pass1234`
-| `/mood-chart` | Sends you a graphical representation of your documented moods | `password` | Must have completed `/setup` | `/mood-chart pass1234`
+| `/get-entry` | Sends you a DM with your journal entry for the specified date | `date` | Must have completed `/setup` | `/get-entry 01/01/2020`
+| `/delete-entry` | Deletes the journal entry for the specified date | `date` | Must have completed `/setup` | `/delete-entry 1/01/2020`
+| `/save` | Save your journal entry | None | - Can only be used in your personal journal thread <br /> - Must have completed `/setup` | `/save`
+| `/index` | See a list of your journal entry dates | None | Must have completed `/setup` | `/index pass1234`
+| `/mood-chart` | Sends you a graphical representation of your documented moods | None | Must have completed `/setup` | `/mood-chart`
 | `/help` | Displays all the commands of the bot | None | None | `/help`
