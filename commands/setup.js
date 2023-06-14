@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 const bcrypt = require('bcrypt');
+const CryptoJS = require("crypto-js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,10 +38,15 @@ module.exports = {
                     })
                     return;
                 }
+
+                const randKey = CryptoJS.lib.WordArray.random(16); // 16 bytes (128 bits) key
+                var userKey = CryptoJS.AES.encrypt(randKey, process.env.MASTER_KEY).toString();
+
                 // Create a new entry in the database
                 await setupSchema.create({
                     UserID: user.id,
-                    Key: hash,
+                    Pass: hash,
+                    Key: userKey,
                     DailyJournal: dailyJournalObj,
                     MoodChart: moodChartObj
                 })
