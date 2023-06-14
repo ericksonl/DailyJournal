@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 module.exports = {
   data: new SlashCommandBuilder()
