@@ -57,6 +57,7 @@ module.exports = {
 
       await interaction.reply({
         content: "You don't have any saved entries on this date! Here is a list of the entries you have: ",
+        ephemeral: true,
         embeds: [embed]
       });
     } else {
