@@ -30,10 +30,10 @@ module.exports = {
 
     //check if the channel is a private thread owned by the user
     if (channel.type !== privateThread) {
-      interaction.reply("This is not a private thread!")
+      interaction.reply({content: "This is not a private thread!", ephemeral: true})
       return
     } else if (channel.name !== threadName) {
-      interaction.reply("This journal is not owned by you!")
+      interaction.reply({content: "This journal is not owned by you!", ephemeral: true})
       return
     }
 

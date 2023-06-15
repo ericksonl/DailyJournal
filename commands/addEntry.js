@@ -19,7 +19,7 @@ module.exports = {
     // 0 is normal text channel
     //If command is run inside anything besides a GUILD_TEXT channel the command will error
     if (channel.type !== 0) {
-      interaction.reply("Sorry, you cannot do that in this channel!")
+      interaction.reply({content: "Sorry, you cannot do that in this channel!", ephemeral: true})
       return
     }
     
