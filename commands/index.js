@@ -47,7 +47,8 @@ module.exports = {
 
         await interaction.reply({
             content: "Here is a list of the entries you have."
-                + "\nUse the command `/get-entry <password> <date>` to view a specific entry.",
+                + "\nUse the command `/get-entry <date>` to view a specific entry.",
+            ephemeral: true,
             embeds: [embed]
         });
         // } else {
