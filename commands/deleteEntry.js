@@ -22,7 +22,7 @@ module.exports = {
       //user is a first-time user, provide setup instructions
       await interaction.reply({
         content: `Welcome to DailyJournal! It seems you're a first-time user. Please complete the setup to get started!
-          \nTo start, you need to set up your account and create a password using the command "/setup".`,
+          \nTo start, you need to set up your account and using the command "/setup".`,
         ephemeral: true
       });
       return;
