@@ -5,6 +5,7 @@ const { REST } = require('@discordjs/rest'),
     { Client, Collection, Events, EmbedBuilder } = require('discord.js')
 
 const { saveThread } = require('./helperFunctions/saveThread.js');
+const { setupUser } = require('./helperFunctions/setup.js');
 
 const fs = require('fs'),
     path = require('path')
@@ -116,9 +117,8 @@ client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isMessageComponent()) return;
 
     if (interaction.isButton()) {
-        const timeZoneCont = "You chose" + btn_id + "\nThank you for completing the setup!"
         const btn_id = interaction.customId
-        
+
         const embed = new EmbedBuilder()
             .setTitle("Saving...")
             .setColor(0x7289DA)
@@ -140,22 +140,8 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.update({ embeds: [embed], components: [] });
             saveThread(interaction, 5)
         }
-
-        if (btn_id === 'central') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        } else if (btn_id === 'mountainD') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        } else if (btn_id === 'mountainS') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        } else if (btn_id === 'pacific') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        } else if (btn_id === 'alaska') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        } else if (btn_id === 'hawaii') {
-            await interaction.update({ content: timeZoneCont, components: [] });
-        }
     }
-    
+
     if (interaction.customId === 'help-menu') {
         const selectedOption = interaction.values[0];
 
@@ -164,83 +150,109 @@ client.on(Events.InteractionCreate, async interaction => {
         if (selectedOption === "embed1") {
             embed.setTitle("setup")
                 .setDescription("Set up DailyJournal")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "First time running `/setup`" },
                     { name: "• Usage", value: "`/setup`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed2") {
             embed.setTitle("add-entry")
                 .setDescription("Add an entry to your journal")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "Must be run in a valid text channel (where a thread can be created)" },
                     { name: "• Usage", value: "`/add-entry`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed3") {
             embed.setTitle("get-entry")
                 .setDescription("Sends you a DM with your journal entry for the specified date")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "date (the date (MM/DD/YYYY) of the journal entry you wish to view)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usages", value: "`/get-entry 01/01/2020`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed4") {
             embed.setTitle("delete-entry")
                 .setDescription("Deletes the journal entry for the specified date")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "date (the date (MM/DD/YYYY) of the journal entry you wish to delete)\n[Required: Yes]" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usages", value: "`/delete-entry 01/01/2020`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed5") {
             embed.setTitle("save")
                 .setDescription("Save your journal entry")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "Can only be used in your personal journal thread\nMust have completed `/setup`" },
                     { name: "• Usage", value: "`/save`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed6") {
             embed.setTitle("index")
                 .setDescription("See a list of your journal entry dates")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usage", value: "`/index`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed7") {
             embed.setTitle("mood-chart")
                 .setDescription("Sends you a graphical representation of your documented moods")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "• Arguments", value: "None" },
                     { name: "• Requirements", value: "Must have completed `/setup`" },
                     { name: "• Usage", value: "`/mood-chart`" }
                 )
-            await interaction.update({ embeds: [embed] });
         } else if (selectedOption === "embed8") {
             embed.setTitle("DailyJournal | Help Menu")
                 .setDescription("Select an option from the drop-down menu below to see more information about these commands")
-                .setColor(0x7289DA)
                 .addFields(
                     { name: "Configuration Commands", value: "`/setup`" },
                     { name: "Journal Commands", value: "`/add-entry`\n`/get-entry`\n`/delete-entry`\n`/save`" },
                     { name: "Extra Commands", value: "`/index`\n`/mood-chart`\n`/help`" }
                 )
-            await interaction.update({ embeds: [embed] });
+        }
+        await interaction.update({ embeds: [embed] });
+    }
+
+    if (interaction.customId === 'time-zone-menu') {
+        const selectedOption = interaction.values[0];
+        console.log(interaction)
+        const embed = new EmbedBuilder()
+            .setTitle("DailyJournal | Setup")
+            .setColor(0x7289DA)
+        if (selectedOption === "hawaiiS") {
+            embed.setDescription("You chose **Hawaii Standard Time (HST)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "HST")
+        } else if (selectedOption === "hawaiiA") {
+            embed.setDescription("You chose **Hawaii-Aleutian Standard Time (HDT)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "HDT")
+        } else if (selectedOption === "alaska") {
+            embed.setDescription("You chose **Alaska Daylight Time (AKDT)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "AKDT")
+        } else if (selectedOption === "pacific") {
+            embed.setDescription("You chose **Pacific Standard Time (PST)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "PST")
+        } else if (selectedOption === "mountainS") {
+            embed.setDescription("You chose **Mountain Standard Time (MST)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "MST")
+        } else if (selectedOption === "mountainD") {
+            embed.setDescription("You chose **Mountain Daylight Time (MDT)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "MDT")
+        } else if (selectedOption === "central") {
+            embed.setDescription("You chose **Central Time (CT)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "CT")
+        } else if (selectedOption === "eastern") {
+            embed.setDescription("You chose **Eastern Standard Time (EST)**\nThank you for completing the setup!")
+            await interaction.update({ embeds: [embed], components: [] });
+            setupUser(interaction, "EST")
         }
     }
 });
