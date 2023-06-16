@@ -116,8 +116,9 @@ client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isMessageComponent()) return;
 
     if (interaction.isButton()) {
+        const timeZoneCont = "You chose" + btn_id + "\nThank you for completing the setup!"
         const btn_id = interaction.customId
-
+        
         const embed = new EmbedBuilder()
             .setTitle("Saving...")
             .setColor(0x7289DA)
@@ -139,8 +140,22 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.update({ embeds: [embed], components: [] });
             saveThread(interaction, 5)
         }
-    }
 
+        if (btn_id === 'central') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        } else if (btn_id === 'mountainD') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        } else if (btn_id === 'mountainS') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        } else if (btn_id === 'pacific') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        } else if (btn_id === 'alaska') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        } else if (btn_id === 'hawaii') {
+            await interaction.update({ content: timeZoneCont, components: [] });
+        }
+    }
+    
     if (interaction.customId === 'help-menu') {
         const selectedOption = interaction.values[0];
 
