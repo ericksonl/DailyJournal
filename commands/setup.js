@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js')
 const setupSchema = require('../mongooseSchema/schema.js')
 // const bcrypt = require('bcrypt');
 const CryptoJS = require("crypto-js");
@@ -45,6 +45,43 @@ module.exports = {
                 MoodChart: moodChartObj
             })
 
+            const menu = new ActionRowBuilder()
+                .addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId('time-zone-menu')
+                        .setPlaceholder('Please select your time-zone')
+                        .addOptions(
+                            {
+                                label: 'central',
+                                value: "embed1"
+                            },
+                            {
+                                label: 'mountainD',
+                                value: "embed2"
+                            },
+                            {
+                                label: 'get-entry',
+                                value: "embed3"
+                            },
+                            {
+                                label: 'delete-entry',
+                                value: "embed4"
+                            },
+                            {
+                                label: 'save',
+                                value: "embed5"
+                            },
+                            {
+                                label: 'index',
+                                value: "embed6"
+                            },
+                            {
+                                label: 'mood-chart',
+                                value: "embed7"
+                            }
+                        ),
+                )
+
             const central = new ButtonBuilder()
                 .setCustomId('central')
                 .setLabel('1️')
@@ -76,7 +113,7 @@ module.exports = {
                 .setStyle(ButtonStyle.Primary);
 
             const row = new ActionRowBuilder()
-                .addComponents(one, two, three, four, five);
+                .addComponents(central, mountainD, mountainS, pacific, alaska, hawaii);
 
             const embed = new EmbedBuilder()
                 .setTitle("Time Zone Selector")
